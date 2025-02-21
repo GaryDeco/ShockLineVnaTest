@@ -7,7 +7,6 @@ def main(address, timeout):
     vna = VnaSocket(address, timeout)
 
     # 1. Read Instrument type
-
     vna.query("*IDN?")
     vna.log_output(f"Instrument Info: {vna_info}")
 
