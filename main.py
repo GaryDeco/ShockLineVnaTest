@@ -1,23 +1,30 @@
 from ms461xx.connection import VnaSocket
+from ms461xx.commands import ScipiCmds
 
 
 def main(address, timeout):
-
+    
     # 0. Instrument connection
     vna = VnaSocket(address, timeout)
 
-    # 1. Read Instrument type
-    vna.query("*IDN?")
-    vna.log_output(f"Instrument Info: {vna_info}")
+    # 1. load commands
+    cmd = ScipiCmds(vna)
 
-    # 2. System reset
-    vna.write("*RST")
-    vna.log_output("Reset command sent")
+    # 2. Read Instrument type
+    cmd.get_device_info()
 
-    # 3. Connection closing
+    ##############################################################################
+    # run additional scipi commands here
+
+
+
+    ##############################################################################
+
+    # 3. System reset (for testing purposes)
+    cmd.reset()
+    
+    # 4. Connection closing
     vna.close()
-    vna.log_output("Connection closed.")
-
 
 if __name__ == "__main__":
 

@@ -1,4 +1,5 @@
 import socket
+import sys
 
 class VnaSocket:
 
@@ -35,8 +36,14 @@ class VnaSocket:
             return (query_response1 + query_response2).rstrip()
 
     def close(self):
-        self.shockline_socket.close()
-
+        try:
+            self.shockline_socket.close()
+        except Exception as e:
+            self.log_output("An unknown error occured while attempting to close socket connection: ", e)
+            sys.exit()
+        self.log_output("VNA socket connection closed.")
+        
+        
     def return_block_data(self):
         data_block_size_read = False
         data_block_size_characters_read = False
