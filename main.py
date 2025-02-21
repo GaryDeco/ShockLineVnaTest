@@ -1,4 +1,4 @@
-from ms461xx.vna_socket import VnaSocket
+from ms461xx.connection import VnaSocket
 
 
 def main(address, timeout):
