@@ -22,11 +22,7 @@ def main(address, timeout):
 
 if __name__ == "__main__":
 
-    # define TCP address and timeout
-    address="TCPIP0::127.0.0.1::5001::SOCKET"
-    timeout=5000 
-
     # run main
-    main(address, timeout)
+    main(address="TCPIP0::127.0.0.1::5001::SOCKET", timeout=5000)
 
 
