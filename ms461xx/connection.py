@@ -1,7 +1,9 @@
 import socket
 import sys
+import time
 
 class VnaSocket:
+    '''Class to handle socket connection to the VNA'''
 
     def __init__(self, address="TCPIP0::127.0.0.1::5001::SOCKET", timeout=5000):
         self.host_ip = address[address.find("::") + 2: address.find("::", address.find("::") + 1)]
@@ -11,7 +13,9 @@ class VnaSocket:
         self.connect()
 
     def connect(self):
+        '''Connect to the VNA'''
         try:
+            self.log_output(f"Connecting to VNA at {self.host_ip} on port {self.port}")
             self.shockline_socket.connect((self.host_ip, self.port))
         except socket.gaierror as e:
             self.log_output(f"Connection failed, error message is: {e}")
@@ -21,8 +25,14 @@ class VnaSocket:
             self.log_output(f"Connection failed, timeout exceeded, message is: {e}")
             self.log_output("Exiting code")
             exit()
+        except ConnectionRefusedError as e:
+            self.log_output(f"Connection failed: {e}...")
+            self.log_output("Connection Error! Please ensure the VNA is connected and the ShockLine software is running...")
+            self.log_output("Aborting...")
+            exit()
 
     def write(self, w_command):
+        '''Write a command to the VNA'''
         self.shockline_socket.send((w_command + "\n").encode())
 
     def query(self, q_command):
@@ -36,6 +46,7 @@ class VnaSocket:
             return (query_response1 + query_response2).rstrip()
 
     def close(self):
+        '''Close the socket connection'''
         try:
             self.shockline_socket.close()
         except Exception as e:
@@ -45,6 +56,7 @@ class VnaSocket:
         
         
     def return_block_data(self):
+        '''Return block data from the VNA'''
         data_block_size_read = False
         data_block_size_characters_read = False
         data_block_size_characters_data = ''
@@ -100,5 +112,7 @@ class VnaSocket:
     @staticmethod
     def log_output(message):
         """Log the output to a text file."""
+        dtime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+        message = str(dtime) + " " + message
         with open("output_log.txt", "a") as log_file:
-            log_file.write(message + "\n")
+            log_file.write("[Logger] " + message + "\n")

@@ -1,17 +1,19 @@
 from ms461xx.connection import VnaSocket
-from ms461xx.commands import ScipiCmds
+from ms461xx.commands import Query, Cmd
 
 
 def main(address, timeout):
+    '''Main function to run the script'''
     
     # 0. Instrument connection
     vna = VnaSocket(address, timeout)
 
     # 1. load commands
-    cmd = ScipiCmds(vna)
+    query = Query(vna)
+    cmd = Cmd(vna)
 
     # 2. Read Instrument type
-    cmd.get_device_info()
+    query.device_info()
 
     ##############################################################################
     # run additional scipi commands here

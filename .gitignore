@@ -29,3 +29,4 @@ MANIFEST
 # Custom
 build_exe.bat
 *.spec
+output_log.txt
