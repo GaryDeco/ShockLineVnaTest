@@ -5,7 +5,7 @@ class ScipiCmds:
     def __init__(self, vna):
         self.vna = vna
         
-class Query:
+class Query(ScipiCmds):
     '''Class to hold SCPI query commands for the MS461xx VNA'''
     def __init__(self, vna):
         super().__init__(vna)
@@ -19,7 +19,7 @@ class Query:
             sys.exit()
         self.vna.log_output(f"Instrument Info: {vna_info}")
         
-class Cmd:
+class Cmd(ScipiCmds):
     '''Class to hold SCPI commands for the MS461xx VNA'''
     def __init__(self, vna):
         super().__init__(vna)
